@@ -1,12 +1,10 @@
 import { Suspense } from 'react'
-import { Header } from '@/components/layout/header'
 import { ProductGrid } from '@/components/products/product-grid'
 import { ProductGridSkeleton } from '@/components/products/product-grid-skeleton'
 
 export default function HomePage() {
   return (
     <div className="min-h-screen bg-background">
-      <Header />
       <main className="container mx-auto px-4 py-8">
         <div className="mb-8">
           <h1 className="text-4xl font-bold text-foreground mb-2">

@@ -5,11 +5,42 @@ export interface Product {
   name: string
   description: string
   price: number
-  image: string
+  imageUrl: string
   category: string
   stock: number
-  rating: number
-  reviews: any[]
+  sellerId: string
+  reviews: Array<{
+    id: string
+    rating: number
+    comment?: string
+    createdAt: Date
+    updatedAt: Date
+    userId: string
+    productId: string
+  }>
+  createdAt: Date
+  updatedAt: Date
+}
+
+// Type for Prisma query results
+interface PrismaProductWithReviews {
+  id: string
+  name: string
+  description: string
+  price: { toString(): string }
+  imageUrl: string
+  category: string
+  stock: number
+  sellerId: string
+  reviews: Array<{
+    id: string
+    rating: number
+    comment: string | null
+    createdAt: Date
+    updatedAt: Date
+    userId: string
+    productId: string
+  }>
   createdAt: Date
   updatedAt: Date
 }
@@ -21,10 +52,10 @@ const sampleProducts: Product[] = [
     name: 'Wireless Headphones',
     description: 'High-quality wireless headphones with noise cancellation',
     price: 99.99,
-    image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500',
+    imageUrl: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500',
     category: 'Electronics',
     stock: 50,
-    rating: 4.5,
+    sellerId: 'sample-seller-1',
     reviews: [],
     createdAt: new Date(),
     updatedAt: new Date(),
@@ -34,10 +65,10 @@ const sampleProducts: Product[] = [
     name: 'Smartphone',
     description: 'Latest smartphone with advanced features',
     price: 699.99,
-    image: 'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=500',
+    imageUrl: 'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=500',
     category: 'Electronics',
     stock: 30,
-    rating: 4.8,
+    sellerId: 'sample-seller-1',
     reviews: [],
     createdAt: new Date(),
     updatedAt: new Date(),
@@ -47,10 +78,10 @@ const sampleProducts: Product[] = [
     name: 'Laptop',
     description: 'Powerful laptop for work and gaming',
     price: 1299.99,
-    image: 'https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=500',
+    imageUrl: 'https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=500',
     category: 'Electronics',
     stock: 20,
-    rating: 4.6,
+    sellerId: 'sample-seller-1',
     reviews: [],
     createdAt: new Date(),
     updatedAt: new Date(),
@@ -60,10 +91,10 @@ const sampleProducts: Product[] = [
     name: 'Coffee Maker',
     description: 'Automatic coffee maker with timer',
     price: 79.99,
-    image: 'https://images.unsplash.com/photo-1517668808822-9ebb02f2a0e6?w=500',
+    imageUrl: 'https://images.unsplash.com/photo-1517668808822-9ebb02f2a0e6?w=500',
     category: 'Home & Kitchen',
     stock: 40,
-    rating: 4.3,
+    sellerId: 'sample-seller-1',
     reviews: [],
     createdAt: new Date(),
     updatedAt: new Date(),
@@ -73,10 +104,10 @@ const sampleProducts: Product[] = [
     name: 'Running Shoes',
     description: 'Comfortable running shoes for athletes',
     price: 129.99,
-    image: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500',
+    imageUrl: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500',
     category: 'Sports',
     stock: 60,
-    rating: 4.7,
+    sellerId: 'sample-seller-1',
     reviews: [],
     createdAt: new Date(),
     updatedAt: new Date(),
@@ -86,10 +117,10 @@ const sampleProducts: Product[] = [
     name: 'Backpack',
     description: 'Durable backpack for everyday use',
     price: 49.99,
-    image: 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=500',
+    imageUrl: 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=500',
     category: 'Fashion',
     stock: 80,
-    rating: 4.4,
+    sellerId: 'sample-seller-1',
     reviews: [],
     createdAt: new Date(),
     updatedAt: new Date(),
@@ -99,10 +130,10 @@ const sampleProducts: Product[] = [
     name: 'Bluetooth Speaker',
     description: 'Portable Bluetooth speaker with great sound',
     price: 89.99,
-    image: 'https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?w=500',
+    imageUrl: 'https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?w=500',
     category: 'Electronics',
     stock: 35,
-    rating: 4.2,
+    sellerId: 'sample-seller-1',
     reviews: [],
     createdAt: new Date(),
     updatedAt: new Date(),
@@ -112,10 +143,10 @@ const sampleProducts: Product[] = [
     name: 'Yoga Mat',
     description: 'Non-slip yoga mat for home workouts',
     price: 29.99,
-    image: 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=500',
+    imageUrl: 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=500',
     category: 'Sports',
     stock: 100,
-    rating: 4.6,
+    sellerId: 'sample-seller-1',
     reviews: [],
     createdAt: new Date(),
     updatedAt: new Date(),
@@ -131,7 +162,28 @@ export async function getProducts(): Promise<Product[]> {
     })
     
     if (dbProducts.length > 0) {
-      return dbProducts
+      // Transform Prisma types to our Product interface
+      return dbProducts.map((product: PrismaProductWithReviews) => ({
+        id: product.id,
+        name: product.name,
+        description: product.description,
+        price: Number(product.price),
+        imageUrl: product.imageUrl,
+        category: product.category,
+        stock: product.stock,
+        sellerId: product.sellerId,
+        reviews: product.reviews.map((review) => ({
+          id: review.id,
+          rating: review.rating,
+          comment: review.comment || undefined,
+          createdAt: review.createdAt,
+          updatedAt: review.updatedAt,
+          userId: review.userId,
+          productId: review.productId,
+        })),
+        createdAt: product.createdAt,
+        updatedAt: product.updatedAt,
+      }))
     }
     
     // Fallback to sample products if database is empty
@@ -152,7 +204,29 @@ export async function getProductById(id: string): Promise<Product | null> {
     })
     
     if (dbProduct) {
-      return dbProduct
+      // Transform Prisma types to our Product interface
+      const product = dbProduct as PrismaProductWithReviews
+      return {
+        id: product.id,
+        name: product.name,
+        description: product.description,
+        price: Number(product.price),
+        imageUrl: product.imageUrl,
+        category: product.category,
+        stock: product.stock,
+        sellerId: product.sellerId,
+        reviews: product.reviews.map((review) => ({
+          id: review.id,
+          rating: review.rating,
+          comment: review.comment || undefined,
+          createdAt: review.createdAt,
+          updatedAt: review.updatedAt,
+          userId: review.userId,
+          productId: review.productId,
+        })),
+        createdAt: product.createdAt,
+        updatedAt: product.updatedAt,
+      }
     }
     
     // Fallback to sample products if database product not found
@@ -183,7 +257,28 @@ export async function searchProducts(query: string): Promise<Product[]> {
     })
     
     if (dbProducts.length > 0) {
-      return dbProducts
+      // Transform Prisma types to our Product interface
+      return dbProducts.map((product: PrismaProductWithReviews) => ({
+        id: product.id,
+        name: product.name,
+        description: product.description,
+        price: Number(product.price),
+        imageUrl: product.imageUrl,
+        category: product.category,
+        stock: product.stock,
+        sellerId: product.sellerId,
+        reviews: product.reviews.map((review) => ({
+          id: review.id,
+          rating: review.rating,
+          comment: review.comment || undefined,
+          createdAt: review.createdAt,
+          updatedAt: review.updatedAt,
+          userId: review.userId,
+          productId: review.productId,
+        })),
+        createdAt: product.createdAt,
+        updatedAt: product.updatedAt,
+      }))
     }
     
     // Fallback to sample products search if database is empty

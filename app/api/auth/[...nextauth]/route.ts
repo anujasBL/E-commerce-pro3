@@ -2,7 +2,8 @@ import NextAuth from 'next-auth'
 import GoogleProvider from 'next-auth/providers/google'
 import { PrismaAdapter } from '@next-auth/prisma-adapter'
 import { prisma } from '@/lib/db'
-import { UserRole } from '@prisma/client'
+
+type UserRole = 'ADMIN' | 'SELLER' | 'CUSTOMER'
 
 // Extend the built-in session types
 declare module 'next-auth' {
@@ -38,7 +39,7 @@ const handler = NextAuth({
     }),
   ],
   callbacks: {
-    async jwt({ token, user, account }) {
+    async jwt({ token, user }) {
       if (user) {
         token.id = user.id
         token.role = user.role
@@ -52,7 +53,7 @@ const handler = NextAuth({
       }
       return session
     },
-    async signIn({ user, account, profile }) {
+    async signIn({ user, account }) {
       if (account?.provider === 'google') {
         // Set default role for new users
         if (user.email === process.env.ADMIN_EMAIL) {

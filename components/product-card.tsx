@@ -4,18 +4,26 @@ import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
-import { Star, ShoppingCart } from 'lucide-react'
+import { ShoppingCart } from 'lucide-react'
 
 export interface Product {
   id: string
   name: string
   description: string
   price: number
-  image: string
+  imageUrl: string
   category: string
   stock: number
-  rating: number
-  reviews: any[]
+  sellerId: string
+  reviews: Array<{
+    id: string
+    rating: number
+    comment?: string
+    createdAt: Date
+    updatedAt: Date
+    userId: string
+    productId: string
+  }>
   createdAt: Date
   updatedAt: Date
 }
@@ -46,7 +54,7 @@ export function ProductCard({ product, onAddToCart, className }: ProductCardProp
         <Link href={`/products/${product.id}`} className="block">
           <div className="relative aspect-square overflow-hidden rounded-lg">
             <Image
-              src={product.image}
+              src={product.imageUrl}
               alt={product.name}
               fill
               className="object-cover transition-transform hover:scale-105"
@@ -61,10 +69,6 @@ export function ProductCard({ product, onAddToCart, className }: ProductCardProp
             <Badge variant="secondary" className="text-xs">
               {product.category}
             </Badge>
-            <div className="flex items-center space-x-1">
-              <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" data-testid="star-icon" />
-              <span className="text-sm font-medium">{product.rating}</span>
-            </div>
           </div>
           
           <Link href={`/products/${product.id}`}>

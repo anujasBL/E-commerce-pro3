@@ -14,7 +14,7 @@ export default function ProductsPage() {
       try {
         const data = await getProducts()
         setProducts(data)
-      } catch (err) {
+      } catch {
         setError('Error loading products')
       } finally {
         setLoading(false)

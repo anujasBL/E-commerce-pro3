@@ -1,6 +1,5 @@
 import { redirect } from 'next/navigation'
 import { getServerSession } from 'next-auth'
-import { Header } from '@/components/layout/header'
 import { AdminPanel } from '@/components/admin/admin-panel'
 
 export default async function AdminPage() {
@@ -12,7 +11,6 @@ export default async function AdminPage() {
 
   return (
     <div className="min-h-screen bg-background">
-      <Header />
       <main className="container mx-auto px-4 py-8">
         <div className="mb-8">
           <h1 className="text-4xl font-bold text-foreground mb-2">
