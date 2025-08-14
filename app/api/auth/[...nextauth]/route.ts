@@ -1,13 +1,38 @@
 import NextAuth from 'next-auth'
-import Google from 'next-auth/providers/google'
-import { PrismaAdapter } from '@auth/prisma-adapter'
+import GoogleProvider from 'next-auth/providers/google'
+import { PrismaAdapter } from '@next-auth/prisma-adapter'
 import { prisma } from '@/lib/db'
 import { UserRole } from '@prisma/client'
 
-export const { handlers, auth, signIn, signOut } = NextAuth({
+// Extend the built-in session types
+declare module 'next-auth' {
+  interface Session {
+    user: {
+      id: string
+      name?: string | null
+      email?: string | null
+      image?: string | null
+      role: UserRole
+    }
+  }
+  
+  interface User {
+    id: string
+    role: UserRole
+  }
+}
+
+declare module 'next-auth/jwt' {
+  interface JWT {
+    id: string
+    role: UserRole
+  }
+}
+
+const handler = NextAuth({
   adapter: PrismaAdapter(prisma),
   providers: [
-    Google({
+    GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID!,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
     }),
@@ -16,14 +41,14 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     async jwt({ token, user, account }) {
       if (user) {
         token.id = user.id
-        token.role = (user as any).role || 'CUSTOMER'
+        token.role = user.role
       }
       return token
     },
     async session({ session, token }) {
       if (session.user) {
-        session.user.id = token.id as string
-        session.user.role = token.role as UserRole
+        session.user.id = token.id
+        session.user.role = token.role
       }
       return session
     },
@@ -49,4 +74,4 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   },
 })
 
-export const { GET, POST } = handlers
+export { handler as GET, handler as POST }
