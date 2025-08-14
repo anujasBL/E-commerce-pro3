@@ -1,0 +1,120 @@
+# Page snapshot
+
+```yaml
+- heading "Products" [level=1]
+- link "Wireless Headphones":
+  - /url: /products/1
+  - img "Wireless Headphones"
+- text: Electronics
+- img
+- text: "4.5"
+- link "Wireless Headphones":
+  - /url: /products/1
+  - heading "Wireless Headphones" [level=3]
+- paragraph: High-quality wireless headphones with noise cancellation
+- text: $99.99 50 in stock (No reviews)
+- button "Add to Cart":
+  - img
+  - text: Add to Cart
+- link "Smartphone":
+  - /url: /products/2
+  - img "Smartphone"
+- text: Electronics
+- img
+- text: "4.8"
+- link "Smartphone":
+  - /url: /products/2
+  - heading "Smartphone" [level=3]
+- paragraph: Latest smartphone with advanced features
+- text: $699.99 30 in stock (No reviews)
+- button "Add to Cart":
+  - img
+  - text: Add to Cart
+- link "Laptop":
+  - /url: /products/3
+  - img "Laptop"
+- text: Electronics
+- img
+- text: "4.6"
+- link "Laptop":
+  - /url: /products/3
+  - heading "Laptop" [level=3]
+- paragraph: Powerful laptop for work and gaming
+- text: $1,299.99 20 in stock (No reviews)
+- button "Add to Cart":
+  - img
+  - text: Add to Cart
+- link "Coffee Maker":
+  - /url: /products/4
+  - img "Coffee Maker"
+- text: Home & Kitchen
+- img
+- text: "4.3"
+- link "Coffee Maker":
+  - /url: /products/4
+  - heading "Coffee Maker" [level=3]
+- paragraph: Automatic coffee maker with timer
+- text: $79.99 40 in stock (No reviews)
+- button "Add to Cart":
+  - img
+  - text: Add to Cart
+- link "Running Shoes":
+  - /url: /products/5
+  - img "Running Shoes"
+- text: Sports
+- img
+- text: "4.7"
+- link "Running Shoes":
+  - /url: /products/5
+  - heading "Running Shoes" [level=3]
+- paragraph: Comfortable running shoes for athletes
+- text: $129.99 60 in stock (No reviews)
+- button "Add to Cart":
+  - img
+  - text: Add to Cart
+- link "Backpack":
+  - /url: /products/6
+  - img "Backpack"
+- text: Fashion
+- img
+- text: "4.4"
+- link "Backpack":
+  - /url: /products/6
+  - heading "Backpack" [level=3]
+- paragraph: Durable backpack for everyday use
+- text: $49.99 80 in stock (No reviews)
+- button "Add to Cart":
+  - img
+  - text: Add to Cart
+- link "Bluetooth Speaker":
+  - /url: /products/7
+  - img "Bluetooth Speaker"
+- text: Electronics
+- img
+- text: "4.2"
+- link "Bluetooth Speaker":
+  - /url: /products/7
+  - heading "Bluetooth Speaker" [level=3]
+- paragraph: Portable Bluetooth speaker with great sound
+- text: $89.99 35 in stock (No reviews)
+- button "Add to Cart":
+  - img
+  - text: Add to Cart
+- link "Yoga Mat":
+  - /url: /products/8
+  - img "Yoga Mat"
+- text: Sports
+- img
+- text: "4.6"
+- link "Yoga Mat":
+  - /url: /products/8
+  - heading "Yoga Mat" [level=3]
+- paragraph: Non-slip yoga mat for home workouts
+- text: $29.99 100 in stock (No reviews)
+- button "Add to Cart":
+  - img
+  - text: Add to Cart
+- button "Open Tanstack query devtools":
+  - img
+- alert
+```

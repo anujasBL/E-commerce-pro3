@@ -54,7 +54,7 @@ jobs:
         fail_ci_if_error: false
     
     - name: Upload test results
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       if: always()
       with:
         name: test-results
@@ -95,7 +95,7 @@ jobs:
         CI: true
     
     - name: Upload Playwright report
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       if: always()
       with:
         name: playwright-report
@@ -129,8 +129,9 @@ jobs:
     - name: Build application
       run: npm run build
     
-    - name: Upload artifact
+    - name: Upload build artifacts
       uses: actions/upload-artifact@v4
       with:
-        name: your-artifact-name
-        path: path/to/artifact
+        name: build
+        path: .next/
+        retention-days: 1

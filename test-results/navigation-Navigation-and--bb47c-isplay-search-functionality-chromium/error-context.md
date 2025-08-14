@@ -1,0 +1,117 @@
+# Page snapshot
+
+```yaml
+- banner:
+  - link "QuickCart Pro":
+    - /url: /
+    - img
+    - text: QuickCart Pro
+  - navigation:
+    - link "Home":
+      - /url: /
+    - link "Products":
+      - /url: /products
+  - button "Sign In"
+- main:
+  - heading "Welcome to QuickCart Pro" [level=1]
+  - paragraph: Discover amazing products from trusted sellers
+  - img "Wireless Headphones"
+  - text: Electronics
+  - heading "Wireless Headphones" [level=3]
+  - paragraph: High-quality wireless headphones with noise cancellation
+  - text: $99.99 50 in stock
+  - link "View":
+    - /url: /products/1
+    - img
+    - text: View
+  - button "Add to Cart":
+    - img
+    - text: Add to Cart
+  - img "Smartphone"
+  - text: Electronics
+  - heading "Smartphone" [level=3]
+  - paragraph: Latest smartphone with advanced features
+  - text: $699.99 30 in stock
+  - link "View":
+    - /url: /products/2
+    - img
+    - text: View
+  - button "Add to Cart":
+    - img
+    - text: Add to Cart
+  - img "Laptop"
+  - text: Electronics
+  - heading "Laptop" [level=3]
+  - paragraph: Powerful laptop for work and gaming
+  - text: $1299.99 20 in stock
+  - link "View":
+    - /url: /products/3
+    - img
+    - text: View
+  - button "Add to Cart":
+    - img
+    - text: Add to Cart
+  - img "Coffee Maker"
+  - text: Home & Kitchen
+  - heading "Coffee Maker" [level=3]
+  - paragraph: Automatic coffee maker with timer
+  - text: $79.99 40 in stock
+  - link "View":
+    - /url: /products/4
+    - img
+    - text: View
+  - button "Add to Cart":
+    - img
+    - text: Add to Cart
+  - img "Running Shoes"
+  - text: Sports
+  - heading "Running Shoes" [level=3]
+  - paragraph: Comfortable running shoes for athletes
+  - text: $129.99 60 in stock
+  - link "View":
+    - /url: /products/5
+    - img
+    - text: View
+  - button "Add to Cart":
+    - img
+    - text: Add to Cart
+  - img "Backpack"
+  - text: Fashion
+  - heading "Backpack" [level=3]
+  - paragraph: Durable backpack for everyday use
+  - text: $49.99 80 in stock
+  - link "View":
+    - /url: /products/6
+    - img
+    - text: View
+  - button "Add to Cart":
+    - img
+    - text: Add to Cart
+  - img "Bluetooth Speaker"
+  - text: Electronics
+  - heading "Bluetooth Speaker" [level=3]
+  - paragraph: Portable Bluetooth speaker with great sound
+  - text: $89.99 35 in stock
+  - link "View":
+    - /url: /products/7
+    - img
+    - text: View
+  - button "Add to Cart":
+    - img
+    - text: Add to Cart
+  - img "Yoga Mat"
+  - text: Sports
+  - heading "Yoga Mat" [level=3]
+  - paragraph: Non-slip yoga mat for home workouts
+  - text: $29.99 100 in stock
+  - link "View":
+    - /url: /products/8
+    - img
+    - text: View
+  - button "Add to Cart":
+    - img
+    - text: Add to Cart
+- button "Open Tanstack query devtools":
+  - img
+- alert
+```
