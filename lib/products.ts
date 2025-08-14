@@ -1,89 +1,206 @@
-// For now, we'll use sample data without Prisma to get the app running
-// TODO: Integrate with Prisma when database is set up
+import { prisma } from './db'
 
-export async function getProducts() {
-  // Return sample products for MVP demonstration
-  return getSampleProducts()
+export interface Product {
+  id: string
+  name: string
+  description: string
+  price: number
+  image: string
+  category: string
+  stock: number
+  rating: number
+  reviews: any[]
+  createdAt: Date
+  updatedAt: Date
 }
 
-export async function getProductById(id: string) {
-  const products = getSampleProducts()
-  return products.find(product => product.id === id) || null
+// Sample products data
+const sampleProducts: Product[] = [
+  {
+    id: '1',
+    name: 'Wireless Headphones',
+    description: 'High-quality wireless headphones with noise cancellation',
+    price: 99.99,
+    image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500',
+    category: 'Electronics',
+    stock: 50,
+    rating: 4.5,
+    reviews: [],
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  },
+  {
+    id: '2',
+    name: 'Smartphone',
+    description: 'Latest smartphone with advanced features',
+    price: 699.99,
+    image: 'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=500',
+    category: 'Electronics',
+    stock: 30,
+    rating: 4.8,
+    reviews: [],
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  },
+  {
+    id: '3',
+    name: 'Laptop',
+    description: 'Powerful laptop for work and gaming',
+    price: 1299.99,
+    image: 'https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=500',
+    category: 'Electronics',
+    stock: 20,
+    rating: 4.6,
+    reviews: [],
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  },
+  {
+    id: '4',
+    name: 'Coffee Maker',
+    description: 'Automatic coffee maker with timer',
+    price: 79.99,
+    image: 'https://images.unsplash.com/photo-1517668808822-9ebb02f2a0e6?w=500',
+    category: 'Home & Kitchen',
+    stock: 40,
+    rating: 4.3,
+    reviews: [],
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  },
+  {
+    id: '5',
+    name: 'Running Shoes',
+    description: 'Comfortable running shoes for athletes',
+    price: 129.99,
+    image: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500',
+    category: 'Sports',
+    stock: 60,
+    rating: 4.7,
+    reviews: [],
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  },
+  {
+    id: '6',
+    name: 'Backpack',
+    description: 'Durable backpack for everyday use',
+    price: 49.99,
+    image: 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=500',
+    category: 'Fashion',
+    stock: 80,
+    rating: 4.4,
+    reviews: [],
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  },
+  {
+    id: '7',
+    name: 'Bluetooth Speaker',
+    description: 'Portable Bluetooth speaker with great sound',
+    price: 89.99,
+    image: 'https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?w=500',
+    category: 'Electronics',
+    stock: 35,
+    rating: 4.2,
+    reviews: [],
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  },
+  {
+    id: '8',
+    name: 'Yoga Mat',
+    description: 'Non-slip yoga mat for home workouts',
+    price: 29.99,
+    image: 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=500',
+    category: 'Sports',
+    stock: 100,
+    rating: 4.6,
+    reviews: [],
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  },
+]
+
+export async function getProducts(): Promise<Product[]> {
+  try {
+    // Try to get products from database first
+    const dbProducts = await prisma.product.findMany({
+      include: { reviews: true },
+      orderBy: { createdAt: 'desc' },
+    })
+    
+    if (dbProducts.length > 0) {
+      return dbProducts
+    }
+    
+    // Fallback to sample products if database is empty
+    return sampleProducts
+  } catch (error) {
+    console.error('Error fetching products:', error)
+    // Return sample products as fallback
+    return sampleProducts
+  }
 }
 
-function getSampleProducts() {
-  return [
-    {
-      id: 'sample-1',
-      name: 'Wireless Bluetooth Headphones',
-      description: 'High-quality wireless headphones with noise cancellation and long battery life. Perfect for music lovers and professionals.',
-      price: 89.99,
-      imageUrl: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500&h=500&fit=crop',
-      category: 'Electronics',
-      stock: 25,
-      seller: { name: 'TechStore', email: 'tech@example.com' },
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    },
-    {
-      id: 'sample-2',
-      name: 'Organic Cotton T-Shirt',
-      description: 'Comfortable and sustainable organic cotton t-shirt. Available in multiple colors and sizes.',
-      price: 24.99,
-      imageUrl: 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=500&h=500&fit=crop',
-      category: 'Clothing',
-      stock: 50,
-      seller: { name: 'EcoFashion', email: 'fashion@example.com' },
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    },
-    {
-      id: 'sample-3',
-      name: 'Stainless Steel Water Bottle',
-      description: 'Durable stainless steel water bottle with vacuum insulation. Keeps drinks cold for 24 hours or hot for 12 hours.',
-      price: 19.99,
-      imageUrl: 'https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=500&h=500&fit=crop',
-      category: 'Home & Garden',
-      stock: 100,
-      seller: { name: 'OutdoorGear', email: 'outdoor@example.com' },
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    },
-    {
-      id: 'sample-4',
-      name: 'Smart Fitness Watch',
-      description: 'Advanced fitness tracking watch with heart rate monitor, GPS, and smartphone connectivity.',
-      price: 199.99,
-      imageUrl: 'https://images.unsplash.com/photo-1544117519-31a4b719223d?w=500&h=500&fit=crop',
-      category: 'Electronics',
-      stock: 15,
-      seller: { name: 'TechStore', email: 'tech@example.com' },
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    },
-    {
-      id: 'sample-5',
-      name: 'Handcrafted Wooden Bowl',
-      description: 'Beautiful handcrafted wooden bowl made from sustainable materials. Perfect for serving or decoration.',
-      price: 45.00,
-      imageUrl: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=500&h=500&fit=crop',
-      category: 'Home & Garden',
-      stock: 8,
-      seller: { name: 'ArtisanCrafts', email: 'crafts@example.com' },
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    },
-    {
-      id: 'sample-6',
-      name: 'Premium Coffee Beans',
-      description: 'Single-origin premium coffee beans from sustainable farms. Rich flavor with notes of chocolate and caramel.',
-      price: 18.99,
-      imageUrl: 'https://images.unsplash.com/photo-1559056199-641a0ac8b55e?w=500&h=500&fit=crop',
-      category: 'Food & Beverage',
-      stock: 75,
-      seller: { name: 'CoffeeRoasters', email: 'coffee@example.com' },
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    },
-  ]
+export async function getProductById(id: string): Promise<Product | null> {
+  try {
+    // Try to get product from database first
+    const dbProduct = await prisma.product.findUnique({
+      where: { id },
+      include: { reviews: true },
+    })
+    
+    if (dbProduct) {
+      return dbProduct
+    }
+    
+    // Fallback to sample products if database product not found
+    return sampleProducts.find(product => product.id === id) || null
+  } catch (error) {
+    console.error('Error fetching product:', error)
+    // Return sample product as fallback
+    return sampleProducts.find(product => product.id === id) || null
+  }
+}
+
+export async function searchProducts(query: string): Promise<Product[]> {
+  if (!query.trim()) {
+    return []
+  }
+  
+  try {
+    // Try to search in database first
+    const dbProducts = await prisma.product.findMany({
+      where: {
+        OR: [
+          { name: { contains: query, mode: 'insensitive' } },
+          { description: { contains: query, mode: 'insensitive' } },
+          { category: { contains: query, mode: 'insensitive' } },
+        ],
+      },
+      include: { reviews: true },
+    })
+    
+    if (dbProducts.length > 0) {
+      return dbProducts
+    }
+    
+    // Fallback to sample products search if database is empty
+    const lowercaseQuery = query.toLowerCase()
+    return sampleProducts.filter(product => 
+      product.name.toLowerCase().includes(lowercaseQuery) ||
+      product.description.toLowerCase().includes(lowercaseQuery) ||
+      product.category.toLowerCase().includes(lowercaseQuery)
+    )
+  } catch (error) {
+    console.error('Error searching products:', error)
+    // Return sample products search as fallback
+    const lowercaseQuery = query.toLowerCase()
+    return sampleProducts.filter(product => 
+      product.name.toLowerCase().includes(lowercaseQuery) ||
+      product.description.toLowerCase().includes(lowercaseQuery) ||
+      product.category.toLowerCase().includes(lowercaseQuery)
+    )
+  }
 }
