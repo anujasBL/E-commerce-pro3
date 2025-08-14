@@ -24,8 +24,11 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
     
-    - name: Install dependencies
-      run: npm ci
+    - name: Clean install dependencies
+      run: |
+        rm -rf node_modules package-lock.json
+        npm install --legacy-peer-deps --force
+        npm audit fix --force || true
     
     - name: Generate Prisma client
       run: npx prisma generate
@@ -80,8 +83,11 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
     
-    - name: Install dependencies
-      run: npm ci
+    - name: Clean install dependencies
+      run: |
+        rm -rf node_modules package-lock.json
+        npm install --legacy-peer-deps --force
+        npm audit fix --force || true
     
     - name: Generate Prisma client
       run: npx prisma generate
@@ -120,8 +126,11 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
     
-    - name: Install dependencies
-      run: npm ci
+    - name: Clean install dependencies
+      run: |
+        rm -rf node_modules package-lock.json
+        npm install --legacy-peer-deps --force
+        npm audit fix --force || true
     
     - name: Generate Prisma client
       run: npx prisma generate

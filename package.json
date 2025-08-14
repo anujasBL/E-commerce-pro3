@@ -16,7 +16,8 @@
     "test:e2e:headed": "playwright test --headed",
     "test:api": "jest --testPathPattern=api",
     "test:unit": "jest --testPathPattern=unit",
-    "test:integration": "jest --testPathPattern=integration"
+    "test:integration": "jest --testPathPattern=integration",
+    "resolve-deps": "node scripts/resolve-deps.js"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.4",
